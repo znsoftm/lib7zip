@@ -42,7 +42,7 @@ static bool ReadStream(CMyComPtr<IInStream> & inStream, Int64 offset, UINT32 see
   UInt64 savedPosition = 0;
   UInt64 newPosition = 0;
 #if MY_VER_MAJOR >= 15
-  UInt32 readCount = signature.Size();
+  UInt32 readCount = (UInt32)signature.Size();
 #else
   UInt32 readCount = signature.GetCapacity();
 #endif

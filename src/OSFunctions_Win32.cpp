@@ -23,14 +23,14 @@ bool LoadDllFromFolder(C7ZipDllHandler * pMainHandler,
                        const wstring & folder_name, 
                        C7ZipObjectPtrArray & handlers)
 {
-    WIN32_FIND_DATA data;
+    WIN32_FIND_DATAW data;
 
     wstring path = pMainHandler->GetHandlerPath() + 
         L"\\" + 
         folder_name + 
         L"\\*.*";
 
-    HANDLE hFind = ::FindFirstFile(path.c_str(), &data);
+    HANDLE hFind = ::FindFirstFileW(path.c_str(), &data);
 
     if (hFind == INVALID_HANDLE_VALUE)
         return false;
@@ -51,7 +51,7 @@ bool LoadDllFromFolder(C7ZipDllHandler * pMainHandler,
         }
         else
         {
-            void * pHandler = LoadLibrary(data.cFileName);
+            void * pHandler = LoadLibraryW(data.cFileName);
 
             C7ZipDllHandler * p7ZipHandler = new C7ZipDllHandler(pMainHandler->GetLibrary(), 
                 pHandler);
@@ -66,7 +66,7 @@ bool LoadDllFromFolder(C7ZipDllHandler * pMainHandler,
             }
         }
     }
-    while(::FindNextFile(hFind, &data));
+    while(::FindNextFileW(hFind, &data));
 
     ::FindClose(hFind);
 
@@ -77,7 +77,7 @@ wstring GetHandlerPath(void * pHandler)
 {
     wchar_t buf[255] = {0};
 
-    if (GetModuleFileName((HMODULE)pHandler, buf, 254) > 0)
+    if (GetModuleFileNameW((HMODULE)pHandler, buf, 254) > 0)
     {
         wstring path = buf;
 
@@ -94,7 +94,7 @@ wstring GetHandlerPath(void * pHandler)
 
 HMODULE Load7ZLibrary(const wstring & library)
 {
-	return LoadLibrary(library.c_str());
+	return LoadLibraryW(library.c_str());
 }
 
 void Free7ZLibrary(HMODULE pModule)

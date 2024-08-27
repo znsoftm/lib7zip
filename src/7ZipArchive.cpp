@@ -95,7 +95,7 @@ public:
 	CArchiveExtractCallback(C7ZipOutStream * pOutStream,const C7ZipArchive * pArchive,const C7ZipArchiveItem * pItem) :
 		m_pOutStream(pOutStream),
 		m_pArchive(pArchive),
-		m_pItem(pItem)
+		m_pItem(pItem), _outFileStreamSpec(nullptr)
 	{
 	}
 };
@@ -147,6 +147,7 @@ C7ZipArchiveImpl::C7ZipArchiveImpl(C7ZipLibrary * pLibrary, IInArchive * pInArch
     : m_pInArchive(pInArchive)
     , m_Archives(archives)
 {
+	(pLibrary);
 }
 
 C7ZipArchiveImpl::~C7ZipArchiveImpl()
@@ -288,6 +289,7 @@ STDMETHODIMP CArchiveExtractCallback::SetCompleted(const UInt64 * /* completeVal
 STDMETHODIMP CArchiveExtractCallback::GetStream(UInt32 index,
 												ISequentialOutStream **outStream, Int32 askExtractMode)
 {
+	(index);
 	if (askExtractMode != NArchive::NExtract::NAskMode::kExtract)
 		return S_OK;
 
@@ -302,12 +304,13 @@ STDMETHODIMP CArchiveExtractCallback::GetStream(UInt32 index,
 
 STDMETHODIMP CArchiveExtractCallback::PrepareOperation(Int32 askExtractMode)
 {
+	(askExtractMode);
 	return S_OK;
 }
 
 STDMETHODIMP CArchiveExtractCallback::SetOperationResult(Int32 operationResult)
 {
-	STDMETHODIMP operationSuccess;
+	HRESULT operationSuccess;
 
 	lastError = operationResult;
 

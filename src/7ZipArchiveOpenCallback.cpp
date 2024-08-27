@@ -72,9 +72,9 @@ STDMETHODIMP C7ZipArchiveOpenCallback::GetProperty(PROPID propID, PROPVARIANT *v
 				}
 				break;
 			case kpidAttrib: prop = (UInt32)0; break;
-			case kpidCTime: prop = 0; break;
-			case kpidATime: prop = 0; break;
-			case kpidMTime: prop = 0; break;
+			case kpidCTime: prop = (UInt32)0; break;
+			case kpidATime: prop = (UInt32)0; break;
+			case kpidMTime: prop = (UInt32)0; break;
 			}
 
 	prop.Detach(value);

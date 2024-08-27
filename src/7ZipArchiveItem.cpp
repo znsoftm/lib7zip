@@ -288,6 +288,7 @@ bool Create7ZipArchiveItem(C7ZipArchive * pArchive,
 						   unsigned int nIndex,
 						   C7ZipArchiveItem ** ppItem)
 {
+	(pArchive);
 	*ppItem = new C7ZipArchiveItemImpl(pInArchive, nIndex);
 
 	return true;

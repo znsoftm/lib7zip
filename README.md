@@ -1,6 +1,10 @@
 # lib7zip
 A library using 7z.dll/7z.so(from 7-Zip) to handle different archive types. lib7zip is based on 7zip/p7zip source code, but NOT including any source code from 7zip/p7zip.
 
+
+
+Original URL: [p7zip-project/p7zip: A new p7zip fork with additional codecs and improvements (forked from https://sourceforge.net/projects/sevenzip/ AND https://sourceforge.net/projects/p7zip/). (github.com)](https://github.com/p7zip-project/p7zip)
+
 Tips
 ====
 * Build lib7zip

@@ -272,7 +272,7 @@ UInt64 ConvertPropVariantToUInt64(const PROPVARIANT &prop)
 
 HRESULT GetFilePathExt(const wstring & path, wstring & ext)
 {
-	int dotPos = path.rfind(L'.');
+	int dotPos = (int)path.rfind(L'.');
 	if (dotPos >= 0) {
 		ext = path.substr(dotPos + 1);
 		return S_OK;
@@ -308,8 +308,8 @@ string NarrowString( const wstring& str )
 {
 	std::ostringstream stm ;
 	stm.imbue(std::locale("C"));
-	const std::ctype<char>& ctfacet =
-					 std::use_facet< std::ctype<char> >( stm.getloc() ) ;
+	const std::ctype<wchar_t>& ctfacet =
+					 std::use_facet< std::ctype<wchar_t> >( stm.getloc() ) ;
 	for( size_t i=0 ; i<str.size() ; ++i )
 		stm << ctfacet.narrow( str[i], 0 ) ;
 	return stm.str() ;

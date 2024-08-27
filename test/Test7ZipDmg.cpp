@@ -15,10 +15,10 @@ private:
 public:
 	TestInStream(std::string fileName) :
 		m_strFileName(fileName),
-		m_strFileExt(L"7z")
+		m_strFileExt(L"7z"), m_nFileSize(0)
 	{
 
-		wprintf(L"fileName.c_str(): %s\n", fileName.c_str());
+		printf("fileName.c_str(): %s\n", fileName.c_str());
 		m_pFile = fopen(fileName.c_str(), "rb");
 		if (m_pFile) {
 			fseek(m_pFile, 0, SEEK_END);
@@ -44,7 +44,7 @@ public:
 			// wprintf(L"Ext:%ls\n", m_strFileExt.c_str());
 		}
 		else {
-			wprintf(L"fileName.c_str(): %s cant open\n", fileName.c_str());
+			printf("fileName.c_str(): %s cant open\n", fileName.c_str());
 		}
 	}
 
@@ -65,11 +65,11 @@ public:
 		if (!m_pFile)
 			return 1;
 
-		int count = fread(data, 1, size, m_pFile);
+		size_t count = fread(data, 1, size, m_pFile);
 
 		if (count >= 0) {
 			if (processedSize != NULL)
-				*processedSize = count;
+				*processedSize = (int)count;
 
 			return 0;
 		}
@@ -150,7 +150,7 @@ public:
 
 	virtual int Write(const void *data, unsigned int size, unsigned int *processedSize)
 	{
-		int count = fwrite(data, 1, size, m_pFile);
+		int count = (int)fwrite(data, 1, size, m_pFile);
 		wprintf(L"Write:%d %d\n", size, count);
 
 		if (count >= 0)
@@ -182,7 +182,7 @@ public:
 
 	virtual int SetSize(unsigned __int64 size)
 	{
-		wprintf(L"SetFileSize:%ld\n", size);
+		printf("SetFileSize:%I64u\n", size);
 		return 0;
 	}
 };
@@ -217,6 +217,8 @@ int _tmain(int argc, _TCHAR* argv[])
 int main(int argc, char * argv[])
 #endif
 {
+	(argc);
+	(argv);
 	C7ZipLibrary lib;
 
 	if (!lib.Initialize()) {

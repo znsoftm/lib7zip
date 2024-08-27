@@ -25,8 +25,8 @@ string narrow( const wstring& str )
 {
 	std::ostringstream stm ;
       stm.imbue(std::locale("C"));
-      const std::ctype<char>& ctfacet =
-		  std::use_facet< std::ctype<char> >( stm.getloc() ) ;
+      const std::ctype<wchar_t>& ctfacet =
+		  std::use_facet< std::ctype<wchar_t> >( stm.getloc() ) ;
       for( size_t i=0 ; i<str.size() ; ++i )
       stm << ctfacet.narrow( str[i], 0 ) ;
       return stm.str() ;
@@ -43,7 +43,7 @@ public:
 	TestInStream(wstring fileName) :
 	  m_pFile(NULL)
       , m_strFileName(fileName)
-      , m_strFileExt(L"001")
+      , m_strFileExt(L"001"), m_nFileSize(0)
 	{
 		string f = narrow(fileName);
 
@@ -72,7 +72,7 @@ public:
 	virtual int Read(void *data, unsigned int size, unsigned int *processedSize)
 	{
 		wprintf(L"Read\n");
-		int count = fread(data, 1, size, m_pFile);
+		int count = (int)fread(data, 1, size, m_pFile);
 		wprintf(L"Read:%d %d\n", size, count);
 
 		if (count >= 0)
@@ -89,8 +89,8 @@ public:
 	virtual int Seek(__int64 offset, unsigned int seekOrigin, unsigned __int64 *newPosition)
 	{
 		wprintf(L"Seek\n");
-		int result = fseek(m_pFile, (long)offset, seekOrigin);
-		wprintf(L"Seek:%ld %ld\n", offset, result);
+		int result = (int)fseek(m_pFile, (long)offset, seekOrigin);
+		wprintf(L"Seek:%I64d %d\n", offset, result);
 		if (!result)
 		{
 			if (newPosition)
@@ -124,7 +124,7 @@ public:
 	TestMultiVolumes(wstring fileName) :
 	  m_pFile(NULL),
 	  m_strFileName(fileName),
-	  m_done(false)
+	  m_done(false), m_nFileSize(0)
 	{
 	}
 
@@ -149,7 +149,7 @@ public:
 			fclose(m_pFile);
 		m_pFile = NULL;
 		string f = narrow(volumeName);
-		wprintf(L"narrow volume:%s\n", f.c_str());
+		printf("narrow volume:%s\n", f.c_str());
 
 		m_pFile = fopen(f.c_str(), "rb");
 
@@ -222,7 +222,7 @@ public:
 
 	virtual int Write(const void *data, unsigned int size, unsigned int *processedSize)
 	{
-		int count = fwrite(data, 1, size, m_pFile);
+		int count = (int)fwrite(data, 1, size, m_pFile);
 		wprintf(L"Write:%d %d\n", size, count);
 
 		if (count >= 0)
@@ -254,7 +254,7 @@ public:
 
 	virtual int SetSize(unsigned __int64 size)
 	{
-		wprintf(L"SetFileSize:%ld\n", size);
+		wprintf(L"SetFileSize:%I64u\n", size);
 		return 0;
 	}
 };
@@ -265,6 +265,8 @@ int _tmain(int argc, _TCHAR* argv[])
 int main(int argc, char * argv[])
 #endif
 {
+	(argc);
+	(argv);
 	C7ZipLibrary lib;
 
 	if (!lib.Initialize())

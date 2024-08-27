@@ -42,7 +42,7 @@ public IArchiveOpenCallback,
  C7ZipArchiveOpenCallback(C7ZipMultiVolumes * pMultiVolumes) : PasswordIsDefined(false),
 		_subArchiveMode(false), 
 		m_pMultiVolumes(pMultiVolumes),
-		m_bMultiVolume(pMultiVolumes != NULL) {
+		m_bMultiVolume(pMultiVolumes != NULL), TotalSize(0){
 	}
 };
 
